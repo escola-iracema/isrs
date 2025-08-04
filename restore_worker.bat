@@ -1,5 +1,4 @@
 @echo off
-chcp 65001 > nul
 setlocal enabledelayedexpansion
 
 :: =================================================================================
@@ -58,3 +57,4 @@ reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartPage2" 
 :eof
 endlocal
 exit /b
+
