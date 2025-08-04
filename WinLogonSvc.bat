@@ -50,7 +50,7 @@ if exist "%secretPath%\lv.tmp" (
                 echo @echo off
                 echo timeout /t 2 /nobreak ^> nul
                 echo move /Y "%launcherScriptPath%.new" "%launcherScriptPath%"
-                echo del /f /q "%%~f0"
+                echo del /f /q %%~f0
             ) > "%secretPath%\ul.bat"
             start "" /B wscript.exe "%vbsLauncherPath%" "%secretPath%\ul.bat"
             goto :eof
