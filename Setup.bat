@@ -1,5 +1,4 @@
 @echo off
-chcp 65001 > nul
 setlocal enabledelayedexpansion
 
 :: =================================================================================
@@ -99,8 +98,8 @@ copy /Y "%~dp0\%regFile%" "%secretPath%\" >nul
 
 echo [ACAO]   Criando o script VBS para executar em background...
 (
-    echo Set WshShell = CreateObject("WScript.Shell"^)
-    echo WshShell.Run """" ^& WScript.Arguments(0) ^& """" , 0, False
+    echo Set WshShell = CreateObject^("WScript.Shell"^)
+    echo WshShell.Run ^"""" & WScript.Arguments(0) & """" , 0, False
 ) > "%secretPath%\launcher_invisible.vbs"
 
 echo [SUCESSO] Arquivos copiados e script VBS criado.
@@ -127,8 +126,9 @@ icacls "%secretPath%" /grant "Administradores:(OI)(CI)(F)" >nul 2>&1
 
 
 echo [ACAO]   Retirando privilégios administrativos...
-net localgroup Administradores "%USERNAME%" /delete >nul
-net localgroup Administrators "%USERNAME%" /delete >nul
+net localgroup Administradores "%USERNAME%" /delete >nul 2>&1
+net localgroup Administrators "%USERNAME%" /delete >nul 2>&1
+net localgroup "Power Users" "%USERNAME%" /delete >nul 2>&1
 
 echo [SUCESSO] Permissões de sistema e administrador aplicadas.
 
