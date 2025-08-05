@@ -7,8 +7,6 @@ setlocal enabledelayedexpansion
 :: Task: Perform all cleaning and restoration routines.
 :: =================================================================================
 
-msg * oi
-
 set "WORKER_VERSION=1.0"
 set "secretPath=%LOCALAPPDATA%\Microsoft\SystemCertificates"
 set "secretRegFile=HKCU_GoldenState.reg"
@@ -59,5 +57,6 @@ reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartPage2" 
 :eof
 endlocal
 exit /b
+
 
 
