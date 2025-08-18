@@ -139,7 +139,11 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Disall
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "3" /t REG_SZ /d "cmd.exe" /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "4" /t REG_SZ /d "powershell.exe" /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "5" /t REG_SZ /d "mmc.exe" /f >nul
+:: Bloqueia o acesso ao Painel de Controle
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoControlPanel /t REG_DWORD /d 1 /f
 
+:: Bloqueia o acesso às Configurações (Settings)
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoSettingsPage /t REG_DWORD /d 1 /f
 echo [SUCESSO] Execucao dos programas proibidos bloqueada.
 
 echo [ACAO]   Retirando privilégios administrativos...
