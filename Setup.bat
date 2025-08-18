@@ -128,6 +128,19 @@ echo.
 icacls "%secretPath%" /grant "SYSTEM:(OI)(CI)(F)" >nul 2>&1
 icacls "%secretPath%" /grant "Administradores:(OI)(CI)(F)" >nul 2>&1
 
+echo [ACAO] Bloqueando execucao de programas que comprometem o sistema...
+
+:: Ativa política para desabilitar execução de programas
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v DisallowRun /t REG_DWORD /d 1 /f >nul
+
+:: Cria a lista de programas proibidos
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "1" /t REG_SZ /d "regedit.exe" /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "2" /t REG_SZ /d "taskmgr.exe" /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "3" /t REG_SZ /d "cmd.exe" /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "4" /t REG_SZ /d "powershell.exe" /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisallowRun" /v "5" /t REG_SZ /d "mmc.exe" /f >nul
+
+echo [SUCESSO] Execucao dos programas proibidos bloqueada.
 
 echo [ACAO]   Retirando privilégios administrativos...
 net localgroup Administradores "%USERNAME%" /delete >nul 2>&1
