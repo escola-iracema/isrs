@@ -91,7 +91,6 @@ powershell -ExecutionPolicy Bypass -Command "& {Get-ChildItem -Path '%USERPROFIL
 powershell -ExecutionPolicy Bypass -Command "& {Get-ChildItem -Path '%TEMP%' -Directory -Recurse | Where-Object { (Get-ChildItem $_.FullName -Recurse | Measure-Object).Count -eq 0 } | Remove-Item -Force -ErrorAction SilentlyContinue}"
 
 :: Renomear e esvaziar a Lixeira
-powershell -Command "& {((New-Object -ComObject Shell.Application).NameSpace(0xA)).Title = 'Lixeira'}"
 powershell -Command "& {Clear-RecycleBin -Force -ErrorAction SilentlyContinue}"
 
 :: Lógica de atualização automática para restore_worker
