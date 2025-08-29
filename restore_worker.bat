@@ -26,20 +26,20 @@ set "firefoxProfile=%APPDATA%\Mozilla\Firefox\Profiles"
 set "psCmdStopProc=Stop-Process -Name 'chrome','msedge','firefox' -Force -ErrorAction SilentlyContinue"
 
 :: Limpeza de perfis de navegador (todos os perfis)
-set "psCmdCleanChromeProfiles=Get-ChildItem -Path '%chromeProfile%' -Directory | ForEach-Object { Remove-Item -Path $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }"
-set "psCmdCleanEdgeProfiles=Get-ChildItem -Path '%edgeProfile%' -Directory | ForEach-Object { Remove-Item -Path $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }"
-set "psCmdCleanFirefoxProfiles=Get-ChildItem -Path '%firefoxProfile%' -Directory | ForEach-Object { Remove-Item -Path $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }"
+set "psCmdCleanChromeProfiles=Get-ChildItem -Path '%chromeProfile%' -Directory | ForEach-Object { Remove-Item -Path $_.FullName -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue }"
+set "psCmdCleanEdgeProfiles=Get-ChildItem -Path '%edgeProfile%' -Directory | ForEach-Object { Remove-Item -Path $_.FullName -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue }"
+set "psCmdCleanFirefoxProfiles=Get-ChildItem -Path '%firefoxProfile%' -Directory | ForEach-Object { Remove-Item -Path $_.FullName -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue }"
 
-set "psCmdCleanDesktop=Get-ChildItem -Path '%USERPROFILE%\Desktop\*' -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
-set "psCmdCleanDownloads=Get-ChildItem -Path '%USERPROFILE%\Downloads\*' -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
-set "psCmdCleanDocuments=Get-ChildItem -Path '%USERPROFILE%\Documents\*' -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
-set "psCmdCleanPictures=Get-ChildItem -Path '%USERPROFILE%\Pictures\*' -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
-set "psCmdCleanVideos=Get-ChildItem -Path '%USERPROFILE%\Videos\*' -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
+set "psCmdCleanDesktop=Get-ChildItem -Path '%USERPROFILE%\Desktop\*' -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue"
+set "psCmdCleanDownloads=Get-ChildItem -Path '%USERPROFILE%\Downloads\*' -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue"
+set "psCmdCleanDocuments=Get-ChildItem -Path '%USERPROFILE%\Documents\*' -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue"
+set "psCmdCleanPictures=Get-ChildItem -Path '%USERPROFILE%\Pictures\*' -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue"
+set "psCmdCleanVideos=Get-ChildItem -Path '%USERPROFILE%\Videos\*' -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue"
 
-set "psCmdCleanTemp=Get-ChildItem -Path '%TEMP%\*' -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
+set "psCmdCleanTemp=Get-ChildItem -Path '%TEMP%\*' -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue"
 
 set "mmcProfile=%APPDATA%\Microsoft\MMC"
-set "psCmdCleanMMC=Remove-Item -Path '%mmcProfile%' -Recurse -Force -ErrorAction SilentlyContinue"
+set "psCmdCleanMMC=Remove-Item -Path '%mmcProfile%' -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue"
 
 powershell -ExecutionPolicy Bypass -Command "& {%psCmdStopProc%}"
 
@@ -48,17 +48,17 @@ powershell -ExecutionPolicy Bypass -Command "& {%psCmdCleanEdgeProfiles%}"
 powershell -ExecutionPolicy Bypass -Command "& {%psCmdCleanFirefoxProfiles%}"
 
 :: Limpeza adicional de temas, extensões e histórico para todos os perfis
-set "psCmdCleanChromeExtensions=Get-ChildItem -Path '%chromeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'Extensions') -Recurse -Force -ErrorAction SilentlyContinue }"
-set "psCmdCleanChromeThemes=Get-ChildItem -Path '%chromeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'Themes') -Recurse -Force -ErrorAction SilentlyContinue }"
-set "psCmdCleanChromeHistory=Get-ChildItem -Path '%chromeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'History*') -Force -ErrorAction SilentlyContinue }"
+set "psCmdCleanChromeExtensions=Get-ChildItem -Path '%chromeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'Extensions') -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue }"
+set "psCmdCleanChromeThemes=Get-ChildItem -Path '%chromeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'Themes') -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue }"
+set "psCmdCleanChromeHistory=Get-ChildItem -Path '%chromeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'History*') -Force -Confirm:$false -ErrorAction SilentlyContinue }"
 
-set "psCmdCleanEdgeExtensions=Get-ChildItem -Path '%edgeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'Extensions') -Recurse -Force -ErrorAction SilentlyContinue }"
-set "psCmdCleanEdgeThemes=Get-ChildItem -Path '%edgeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'Themes') -Recurse -Force -ErrorAction SilentlyContinue }"
-set "psCmdCleanEdgeHistory=Get-ChildItem -Path '%edgeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'History*') -Force -ErrorAction SilentlyContinue }"
+set "psCmdCleanEdgeExtensions=Get-ChildItem -Path '%edgeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'Extensions') -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue }"
+set "psCmdCleanEdgeThemes=Get-ChildItem -Path '%edgeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'Themes') -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue }"
+set "psCmdCleanEdgeHistory=Get-ChildItem -Path '%edgeProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'History*') -Force -Confirm:$false -ErrorAction SilentlyContinue }"
 
-set "psCmdCleanFirefoxExtensions=Get-ChildItem -Path '%firefoxProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'extensions') -Recurse -Force -ErrorAction SilentlyContinue }"
-set "psCmdCleanFirefoxThemes=Get-ChildItem -Path '%firefoxProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'chrome') -Recurse -Force -ErrorAction SilentlyContinue }"
-set "psCmdCleanFirefoxHistory=Get-ChildItem -Path '%firefoxProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'places.sqlite*') -Force -ErrorAction SilentlyContinue }"
+set "psCmdCleanFirefoxExtensions=Get-ChildItem -Path '%firefoxProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'extensions') -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue }"
+set "psCmdCleanFirefoxThemes=Get-ChildItem -Path '%firefoxProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'chrome') -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue }"
+set "psCmdCleanFirefoxHistory=Get-ChildItem -Path '%firefoxProfile%' -Directory | ForEach-Object { Remove-Item -Path (Join-Path $_.FullName 'places.sqlite*') -Force -Confirm:$false -ErrorAction SilentlyContinue }"
 
 powershell -ExecutionPolicy Bypass -Command "& {%psCmdCleanChromeExtensions%}"
 powershell -ExecutionPolicy Bypass -Command "& {%psCmdCleanChromeThemes%}"
