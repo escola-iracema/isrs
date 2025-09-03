@@ -1,6 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
-set "LAUNCHER_VERSION=1.8"
+set "LAUNCHER_VERSION=1.9"
 set "LAUNCHER_VERSION_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/launcher_version.txt"
 set "LAUNCHER_SCRIPT_URL=https://raw.githubusercontent.com/escola-iracema/isrs/main/WinLogonSvc.bat"
 
